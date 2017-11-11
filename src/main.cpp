@@ -6,14 +6,34 @@
  * https://github.com/te-bachi/nano-PA17_bmat_6
  */
 
- #include "Leishman.h"
+#include "Leishman.h"
 
+void zcd_isr();
 
-void setup() {
+uint32_t i;
+
+const byte interruptPin = 2;
+
+void
+setup() {
+    i = 0;
+    attachInterrupt(digitalPinToInterrupt(interruptPin), zcd_isr, RISING);
     Leishman::begin();
     Serial.println("Done!");
 }
 
-void loop() {
+void
+loop() {
+    //int k;
+
     cli.check();
+    delay(1000);
+
+    String s = "i = " + String(i);
+    Serial.println(s);
+}
+
+void
+zcd_isr() {
+    i++;
 }
